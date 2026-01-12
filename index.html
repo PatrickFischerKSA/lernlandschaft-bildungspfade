@@ -1,202 +1,298 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>Lernlandschaft Bildungspfade Schweiz</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      margin: 0;
-      background: #f5f6f7;
-      color: #222;
-      line-height: 1.6;
-    }
-    header {
-      background: #ffffff;
-      border-bottom: 1px solid #ddd;
-      padding: 2rem;
-    }
-    header h1 { margin: 0 0 0.5rem 0; }
-    main { max-width: 900px; margin: 0 auto; padding: 2rem; }
-    section {
-      background: #ffffff;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-    }
-    h2, h3 { margin-top: 0; }
-    .task {
-      background: #f0f3f6;
-      padding: 1rem;
-      border-left: 4px solid #4a6fa5;
-      margin: 1rem 0;
-    }
-    textarea {
-      width: 100%;
-      min-height: 90px;
-      padding: 0.5rem;
-      font-family: inherit;
-      font-size: 1rem;
-    }
-    button {
-      margin-top: 0.5rem;
-      padding: 0.4rem 0.8rem;
-      font-size: 0.9rem;
-      cursor: pointer;
-    }
-    .feedback {
-      display: none;
-      margin-top: 0.5rem;
-      background: #e7eef7;
-      padding: 0.7rem;
-      border-radius: 4px;
-    }
-    audio { width: 100%; margin-top: 0.5rem; }
-    footer {
-      font-size: 0.85rem;
-      color: #555;
-      padding: 2rem;
-      text-align: center;
-    }
-    @media print {
-      button { display: none; }
-      body { background: white; }
-      section { box-shadow: none; }
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Lernlandschaft – Bildungspfade Schweiz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  margin: 0;
+  background: #f4f5f7;
+  color: #222;
+  line-height: 1.65;
+}
+header {
+  background: #ffffff;
+  border-bottom: 1px solid #ddd;
+  padding: 2rem;
+}
+main {
+  max-width: 900px;
+  margin: auto;
+  padding: 2rem;
+}
+section {
+  background: #ffffff;
+  padding: 1.8rem;
+  margin-bottom: 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+h2 { margin-top: 0; }
+h3 { margin-top: 1.5rem; }
+.task {
+  background: #eef2f6;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-left: 4px solid #4a6fa5;
+}
+textarea {
+  width: 100%;
+  min-height: 100px;
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+button {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+.feedback {
+  display: none;
+  margin-top: 0.6rem;
+  background: #e7eef7;
+  padding: 0.7rem;
+  border-radius: 4px;
+}
+audio { width: 100%; margin-top: 1rem; }
+footer {
+  font-size: 0.85rem;
+  color: #555;
+  padding: 2rem;
+  text-align: center;
+}
+@media print {
+  button { display: none; }
+  body { background: white; }
+  section { box-shadow: none; }
+}
+</style>
 </head>
+
 <body>
 
 <header>
-  <h1>Gymnasium, Lehre oder Studium?</h1>
-  <p>
-    Interaktive Lernlandschaft für Jugendliche (15–19 Jahre)
-    zu Bildungswegen in der Schweiz – faktenbasiert, reflexiv, ohne Entscheidungsdruck.
-  </p>
-  <button onclick="exportPDF()">PDF exportieren</button>
+<h1>Gymnasium, Lehre, Studium – und was dann?</h1>
+<p>
+Diese Lernlandschaft unterstützt Jugendliche (15–19 Jahre) dabei,
+Bildungsentscheidungen im Schweizer System zu verstehen –  
+<strong>nicht um sich festzulegen</strong>, sondern um Orientierung zu gewinnen.
+</p>
+<button onclick="exportPDF()">PDF exportieren</button>
 </header>
 
 <main>
 
+<!-- 1 -->
 <section>
-  <h2>1. Einstieg: Wo stehst du gerade?</h2>
-  <div class="task">
-    <p><strong>Frage:</strong> Was beschäftigt dich aktuell in Bezug auf deine Zukunft nach der Schule?</p>
-    <textarea></textarea>
-    <button onclick="showFeedback(this)">Reflexion</button>
-    <div class="feedback">Orientierung ist ein Prozess. Unsicherheit ist dabei normal.</div>
-  </div>
+<h2>1. Einstieg: Wo stehst du gerade?</h2>
+
+<div class="task">
+<p><strong>Frage 1:</strong> Was beschäftigt dich im Moment am meisten, wenn du an deine Zukunft nach der Schule denkst?</p>
+<textarea></textarea>
+<button onclick="showFeedback(this)">Rückmeldung</button>
+<div class="feedback">
+Unsicherheit ist in dieser Phase normal. Bildungsbiografien verlaufen heute selten geradlinig.
+</div>
+</div>
+
+<div class="task">
+<p><strong>Frage 2:</strong> Spürst du eher Erwartungsdruck – oder eher Entscheidungsfreiheit? Von wem?</p>
+<textarea></textarea>
+<button onclick="showFeedback(this)">Einordnung</button>
+<div class="feedback">
+Forschung zeigt: Erwartungen von Eltern, Schule und Gesellschaft beeinflussen Entscheidungen stark – oft stärker als eigene Interessen.
+</div>
+</div>
 </section>
 
+<!-- 2 -->
 <section>
-  <h2>2. Audiotext: Wie die Schweiz ihr Bildungsziel verfehlt</h2>
-  <audio controls>
-    <source src="assets/audio/republik_bildungsziel.mp3" type="audio/mpeg">
-  </audio>
-  <div class="task">
-    <p><strong>Hörauftrag:</strong> Welche Aussagen betreffen Jugendliche direkt, welche das Bildungssystem?</p>
-    <textarea></textarea>
-    <button onclick="showFeedback(this)">Einordnung</button>
-    <div class="feedback">Der Text unterscheidet bewusst zwischen individuellen Wegen und systemischen Rahmenbedingungen.</div>
-  </div>
+<h2>2. Audiotext: „Wie die Schweiz ihr Bildungsziel verfehlt“</h2>
+
+<p>
+Audioversion eines Republik-Artikels (Philippe Wampfler, 2026).
+</p>
+
+<audio controls>
+  <source src="assets/audio/republik_bildungsziel.mp3" type="audio/mpeg">
+</audio>
+
+<div class="task">
+<p><strong>Hörauftrag 1:</strong> Welche Aussagen beziehen sich auf Jugendliche – welche auf das Bildungssystem?</p>
+<textarea></textarea>
+<button onclick="showFeedback(this)">Feedback</button>
+<div class="feedback">
+Der Text macht deutlich: Viele Probleme entstehen nicht durch falsche Entscheidungen Einzelner, sondern durch strukturelle Rahmenbedingungen.
+</div>
+</div>
+
+<div class="task">
+<p><strong>Hörauftrag 2:</strong> Was bedeutet die Aussage „25 ist das neue 18“ konkret?</p>
+<textarea></textarea>
+<button onclick="showFeedback(this)">Einordnung</button>
+<div class="feedback">
+Gemeint ist: Orientierung, Reife und Bildungsabschlüsse verschieben sich zeitlich nach hinten – ohne dass dies ein Scheitern darstellt.
+</div>
+</div>
 </section>
 
+<!-- 3 -->
 <section>
-  <h2>3. Bildungswege in der Schweiz</h2>
-  <ul>
-    <li>Berufslehre (EFZ / BM)</li>
-    <li>Gymnasiale Maturität</li>
-    <li>Fachmaturität</li>
-  </ul>
-  <div class="task">
-    <p><strong>Reflexion:</strong> Welcher Weg erscheint dir aktuell am nachvollziehbarsten?</p>
-    <textarea></textarea>
-    <button onclick="showFeedback(this)">Feedback</button>
-    <div class="feedback">Erfolg hängt stark von Passung und Unterstützung ab – nicht vom Startweg.</div>
-  </div>
+<h2>3. Bildungswege in der Schweiz – ohne Hierarchie</h2>
+
+<p>
+Das Schweizer Bildungssystem bietet mehrere gleichwertige Wege.
+</p>
+
+<ul>
+<li>Berufslehre (EFZ / BM)</li>
+<li>Gymnasiale Maturität</li>
+<li>Fachmaturität</li>
+<li>Spätere Zugänge und zweite Bildungswege</li>
+</ul>
+
+<div class="task">
+<p><strong>Frage:</strong> Welche dieser Wege werden gesellschaftlich als „normal“ angesehen – und welche weniger?</p>
+<textarea></textarea>
+<button onclick="showFeedback(this)">Feedback</button>
+<div class="feedback">
+Gesellschaftliche Anerkennung folgt nicht immer der tatsächlichen Durchlässigkeit des Systems.
+</div>
+</div>
 </section>
 
+<!-- 4 -->
 <section>
-  <h2>4. Studienwahl datenbasiert: FH oder Universität?</h2>
-  <h3>Zugang & Alter</h3>
-  <p>FH: Berufsmaturität + Praxis (Ø Eintritt 22–23)<br>Uni/ETH: Gymi-Matur / Passerelle (Ø Eintritt 20–21)</p>
+<h2>4. Studienwahl datenbasiert: Fachhochschule oder Universität?</h2>
 
-  <h3>Abbrüche & Wechsel</h3>
-  <p>20–30 % wechseln Fach oder unterbrechen ihr Erststudium – bei FH und Uni ähnlich.</p>
+<h3>Zugang & Alter</h3>
+<ul>
+<li>FH: Berufsmaturität + Praxis (Ø Eintritt ca. 22–23)</li>
+<li>Uni/ETH: Gymi-Matur / Passerelle (Ø Eintritt ca. 20–21)</li>
+</ul>
 
-  <div class="task">
-    <p><strong>Einordnung:</strong> Was sagen dir diese Zahlen?</p>
-    <textarea></textarea>
-    <button onclick="showFeedback(this)">Faktenfeedback</button>
-    <div class="feedback">Fachwechsel gelten in der Forschung meist als Korrektur, nicht als Scheitern.</div>
-  </div>
+<div class="task">
+<p><strong>Frage:</strong> Was sagt dir das Eintrittsalter über Bildungsbiografien?</p>
+<textarea></textarea>
+<button onclick="showFeedback(this)">Einordnung</button>
+<div class="feedback">
+Viele Studierende beginnen ihr Studium nicht direkt nach der Schule – Umwege sind häufig.
+</div>
+</div>
+
+<h3>Abbrüche & Wechsel</h3>
+<p>
+Rund 20–30 % wechseln Fach oder unterbrechen ihr Erststudium – bei FH und Uni ähnlich.
+</p>
+
+<div class="task">
+<p><strong>Frage:</strong> Warum könnten Fachwechsel sinnvoll sein?</p>
+<textarea></textarea>
+<button onclick="showFeedback(this)">Faktenfeedback</button>
+<div class="feedback">
+Forschung bewertet Fachwechsel oft als Korrektur eines frühen Entscheids, nicht als Scheitern.
+</div>
+</div>
 </section>
 
+<!-- 5 -->
 <section>
-  <h2>5. Abbruch, Wechsel, Anschluss</h2>
-  <ul>
-    <li>Fachwechsel</li>
-    <li>Hochschultyp-Wechsel</li>
-    <li>Unterbruch mit Wiedereinstieg</li>
-  </ul>
-  <div class="task">
-    <p><strong>Frage:</strong> Welche Anschlussoption erscheint dir besonders wichtig?</p>
-    <textarea></textarea>
-    <button onclick="showFeedback(this)">Einordnung</button>
-    <div class="feedback">Viele sogenannte Abbrüche enden in einem späteren Abschluss.</div>
-  </div>
+<h2>5. Wenn etwas nicht passt: Abbruch, Wechsel, Anschluss</h2>
+
+<h3>Was Abbruch bedeuten kann</h3>
+<ul>
+<li>Wechsel des Studienfachs</li>
+<li>Wechsel FH ↔ Uni</li>
+<li>Unterbruch mit späterem Wiedereinstieg</li>
+</ul>
+
+<div class="task">
+<p><strong>Frage:</strong> Welche dieser Formen wird deiner Meinung nach am stärksten stigmatisiert?</p>
+<textarea></textarea>
+<button onclick="showFeedback(this)">Einordnung</button>
+<div class="feedback">
+Viele sogenannte Abbrüche enden in einem späteren Abschluss – statistisch gesehen.
+</div>
+</div>
+
+<h3>Typische Gründe (aggregiert)</h3>
+<ul>
+<li>falsche Erwartungen</li>
+<li>Überforderung durch Selbstorganisation</li>
+<li>fehlende soziale Einbindung</li>
+<li>finanzielle Belastung</li>
+</ul>
+
+<div class="task">
+<p><strong>Frage:</strong> Welche dieser Gründe lassen sich beeinflussen – und durch wen?</p>
+<textarea></textarea>
+<button onclick="showFeedback(this)">Feedback</button>
+<div class="feedback">
+Begleitangebote und Beratung senken das Risiko von Abbrüchen deutlich.
+</div>
+</div>
 </section>
 
+<!-- 6 -->
 <section>
-  <h2>6. Datenarbeit mit BFS</h2>
-  <ul>
-    <li><a href="https://www.bfs.admin.ch/bfs/de/home/statistiken/bildung-wissenschaft/bildungsindikatoren/indicators/maturitaetsquote.html" target="_blank">BFS: Maturitätsquote</a></li>
-    <li><a href="https://www.bfs.admin.ch/bfs/de/home/statistiken/bildung-wissenschaft/uebergaenge.html" target="_blank">BFS: Übergänge</a></li>
-  </ul>
-  <div class="task">
-    <p><strong>Beobachtung:</strong> Welche Entwicklung überrascht dich?</p>
-    <textarea></textarea>
-    <button onclick="showFeedback(this)">Einordnung</button>
-    <div class="feedback">Statistiken zeigen Trends – keine individuellen Prognosen.</div>
-  </div>
+<h2>6. Datenarbeit: Was zeigen Zahlen – und was nicht?</h2>
+
+<ul>
+<li><a href="https://www.bfs.admin.ch/bfs/de/home/statistiken/bildung-wissenschaft/bildungsindikatoren/indicators/maturitaetsquote.html" target="_blank">BFS: Maturitätsquote</a></li>
+<li><a href="https://www.bfs.admin.ch/bfs/de/home/statistiken/bildung-wissenschaft/uebergaenge.html" target="_blank">BFS: Übergänge im Bildungssystem</a></li>
+</ul>
+
+<div class="task">
+<p><strong>Beobachtung:</strong> Welche Entwicklung überrascht dich am meisten?</p>
+<textarea></textarea>
+<button onclick="showFeedback(this)">Einordnung</button>
+<div class="feedback">
+Statistiken zeigen Trends – keine individuellen Lebensverläufe.
+</div>
+</div>
 </section>
 
+<!-- 7 -->
 <section>
-  <h2>7. Abschluss</h2>
-  <div class="task">
-    <p><strong>Satzanfang:</strong> Nach dieser Lernlandschaft denke ich anders über Bildungswege, weil …</p>
-    <textarea></textarea>
-    <button onclick="showFeedback(this)">Abschlussfeedback</button>
-    <div class="feedback">Bildungsentscheidungen dürfen sich verändern.</div>
-  </div>
+<h2>7. Abschluss: Was nimmst du mit?</h2>
+
+<div class="task">
+<p><strong>Satzanfang:</strong> Nach dieser Lernlandschaft denke ich über Bildungsentscheidungen anders, weil …</p>
+<textarea></textarea>
+<button onclick="showFeedback(this)">Abschlussfeedback</button>
+<div class="feedback">
+Orientierung ist kein Versagen, sondern eine Kompetenz.
+</div>
+</div>
 </section>
 
 </main>
 
 <footer>
-  Lernlandschaft Bildungspfade Schweiz · GitHub Pages · lokal gespeichert · PDF-exportfähig
+Lernlandschaft Bildungspfade Schweiz · GitHub Pages · localStorage · PDF-exportfähig
 </footer>
 
 <script>
-  const textareas = document.querySelectorAll('textarea');
-  textareas.forEach((ta, index) => {
-    const key = 'antwort_' + index;
-    ta.value = localStorage.getItem(key) || '';
-    ta.addEventListener('input', () => localStorage.setItem(key, ta.value));
-  });
+const textareas = document.querySelectorAll('textarea');
+textareas.forEach((ta, index) => {
+  const key = 'antwort_' + index;
+  ta.value = localStorage.getItem(key) || '';
+  ta.addEventListener('input', () => localStorage.setItem(key, ta.value));
+});
 
-  function showFeedback(btn) {
-    btn.nextElementSibling.style.display = 'block';
-  }
+function showFeedback(btn) {
+  btn.nextElementSibling.style.display = 'block';
+}
 
-  function exportPDF() {
-    const t = document.title;
-    document.title = 'Lernlandschaft_Bildungspfade_CH';
-    window.print();
-    document.title = t;
-  }
+function exportPDF() {
+  const t = document.title;
+  document.title = 'Lernlandschaft_Bildungspfade_CH';
+  window.print();
+  document.title = t;
+}
 </script>
 
 </body>
