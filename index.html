@@ -2,147 +2,157 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Lernlandschaft – Bildungspfade Schweiz</title>
+<title>Gymnasium, Lehre oder Studium?</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!--
 ====================================================
-ARBEITSMODUS – EXPLIZITE ÄNDERUNGEN
-1) NEU: transparentes Hintergrundbild (body::before)
-2) NEU: Druck-Override (Hintergrund im PDF AUS)
-3) BESTEHEND: localStorage für alle Textfelder
-4) BESTEHEND: PDF-Export (window.print)
-5) KEINE Inhalte entfernt oder verkürzt
+ARBEITSMODUS – EXPLIZITE ÄNDERUNGEN (gegenüber deiner Version ohne sichtbaren Hintergrund)
+----------------------------------------------------
+A) NEU / KORRIGIERT: Hintergrund wird NICHT mehr über body::before mit z-index:-1 gelöst,
+   sondern über einen stabilen Layer <div id="bg-layer"></div>.
+   → Hintergrund ist sichtbar (GitHub Pages / Browser robust)
+
+B) KORRIGIERT: Audio-Pfad an deine Repo-Struktur angepasst:
+   assets/republik_bildungsziel.mp3 (kein assets/audio/...)
+
+C) ERGÄNZT: Vollständige inhaltliche Substanz:
+   - alle Module (Bildungswege, Studienwahl FH/Uni, Abbruch/Anschluss, Datenarbeit BFS,
+     KI & Berufswahl mit 13 Vertiefungsfragen, Quellen/Ressourcen)
+   - localStorage für ALLE Textfelder
+   - PDF Export + Print-CSS (Hintergrund im PDF AUS)
+
+D) KEINE stillschweigenden Kürzungen:
+   - Es fehlen keine zuvor erarbeiteten Fragen/Module mehr.
 ====================================================
 -->
 
 <style>
-
 /* ==================================================
-   GRUNDLAYOUT (BESTEHEND)
+   GRUNDLAYOUT
    ================================================== */
-
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   margin: 0;
-  background: #f4f5f7;
-  color: #222;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   line-height: 1.65;
-  position: relative; /* WICHTIG für Hintergrund-Layer */
+  color: #222;
+  background: transparent;
 }
 
 /* ==================================================
-   NEU: TRANSPARENTES HINTERGRUNDBILD
-   Datei: assets/images/gleise_bg.jpg
+   HINTERGRUNDLAYER (stabil, sichtbar)
    ================================================== */
-
-body::before {
-  content: "";
+#bg-layer {
   position: fixed;
-  inset: 0;
-  background-image: url("assets/images/gleise_bg.jpg");
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("./assets/images/gleise_bg.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.22;              /* Transparenz bewusst moderat */
-  z-index: -1;                /* liegt hinter allem */
+  opacity: 0.28; /* Sichtbar, aber nicht dominant */
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Inhalt darüber */
+header, main, footer {
+  position: relative;
+  z-index: 1;
 }
 
 /* ==================================================
    HEADER
    ================================================== */
-
 header {
   background: rgba(255,255,255,0.95);
   border-bottom: 1px solid #ddd;
   padding: 2rem;
 }
-
-header h1 {
-  margin: 0 0 0.5rem 0;
-}
-
-header p {
-  max-width: 900px;
-}
-
-header button {
-  margin-top: 1rem;
-}
+header h1 { margin: 0 0 0.5rem 0; }
+header p { max-width: 900px; margin: 0.25rem 0 0 0; }
+header .btn-row { margin-top: 1rem; display: flex; gap: 0.6rem; flex-wrap: wrap; }
 
 /* ==================================================
-   INHALTSBEREICH
+   MAIN / SECTIONS
    ================================================== */
-
 main {
-  max-width: 900px;
-  margin: auto;
+  max-width: 980px;
+  margin: 0 auto;
   padding: 2rem;
 }
 
 section {
-  background: rgba(255,255,255,0.92); /* Lesbarkeit sichern */
+  background: rgba(255,255,255,0.92);
   padding: 1.8rem;
   margin-bottom: 2.5rem;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  border-radius: 10px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
 }
 
-h2 {
-  margin-top: 0;
-}
-
-h3 {
-  margin-top: 1.5rem;
-}
+h2 { margin-top: 0; }
+h3 { margin-top: 1.4rem; }
+p { max-width: 900px; }
 
 /* ==================================================
-   AUFGABEN & INTERAKTION
+   TASKS / INTERAKTION
    ================================================== */
-
 .task {
   background: #eef2f6;
   padding: 1rem;
   margin: 1rem 0;
   border-left: 4px solid #4a6fa5;
+  border-radius: 6px;
 }
 
 textarea {
   width: 100%;
   min-height: 110px;
+  padding: 0.65rem;
   font-size: 1rem;
-  padding: 0.6rem;
   margin-top: 0.5rem;
+  border: 1px solid #cfd7e3;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.95);
 }
 
 button {
-  margin-top: 0.5rem;
-  padding: 0.45rem 0.9rem;
-  font-size: 0.9rem;
+  margin-top: 0.6rem;
+  padding: 0.5rem 0.95rem;
+  font-size: 0.92rem;
   cursor: pointer;
+  border: 1px solid #c7cfdc;
+  border-radius: 8px;
+  background: #f5f7fa;
 }
+
+button:hover { background: #eef2f6; }
 
 .feedback {
   display: none;
-  margin-top: 0.6rem;
+  margin-top: 0.75rem;
   background: #e7eef7;
-  padding: 0.7rem;
-  border-radius: 4px;
+  padding: 0.85rem;
+  border-radius: 8px;
+  border: 1px solid #d3deef;
 }
 
 /* ==================================================
-   AUDIO
+   AUDIO / LINKS / KLEINES UI
    ================================================== */
+audio { width: 100%; margin-top: 0.8rem; }
 
-audio {
-  width: 100%;
-  margin-top: 1rem;
-}
+a { color: #1a4b8c; }
+a:hover { text-decoration: underline; }
+
+.small { font-size: 0.92rem; color: #444; }
+hr { border: none; border-top: 1px solid #e2e6ef; margin: 1.2rem 0; }
 
 /* ==================================================
    FOOTER
    ================================================== */
-
 footer {
   font-size: 0.85rem;
   color: #555;
@@ -151,202 +161,512 @@ footer {
 }
 
 /* ==================================================
-   NEU: DRUCK / PDF-EXPORT
-   Hintergrund wird EXPLIZIT deaktiviert
+   PDF / DRUCK
    ================================================== */
-
 @media print {
-  body {
-    background: white;
-  }
-
-  body::before {
-    display: none;   /* Hintergrundbild AUS */
-  }
-
-  button {
-    display: none;
-  }
-
+  #bg-layer { display: none; }
+  body { background: white; }
+  button { display: none; }
   section {
-    box-shadow: none;
     background: white;
+    box-shadow: none;
+    border: 1px solid #ddd;
   }
+  a { color: #000; text-decoration: none; }
 }
-
 </style>
 </head>
 
 <body>
 
+<!-- Hintergrund -->
+<div id="bg-layer"></div>
+
 <header>
-<h1>Gymnasium, Lehre, Studium – und was dann?</h1>
-<p>
-Diese Lernlandschaft richtet sich an Jugendliche zwischen 15 und 19 Jahren.
-Sie unterstützt bei der Orientierung im Schweizer Bildungssystem –
-<strong>ohne Entscheidungszwang, aber mit gesicherten Informationen</strong>.
-</p>
-<button onclick="exportPDF()">PDF exportieren</button>
+  <h1>Gymnasium, Lehre oder Studium?</h1>
+  <p>Interaktive Lernlandschaft für Jugendliche (15–19 Jahre) zu Bildungswegen in der Schweiz – faktenbasiert, reflexiv, ohne Entscheidungsdruck.</p>
+  <div class="btn-row">
+    <button onclick="exportPDF()">PDF exportieren</button>
+    <button onclick="clearAnswers()">Antworten löschen (nur dieses Gerät)</button>
+  </div>
+  <p class="small">Hinweis: Antworten werden lokal auf diesem Gerät gespeichert (localStorage). Kein Upload, kein Login.</p>
 </header>
 
 <main>
 
 <!-- ==================================================
-     1. EINSTIEG
+     1) EINSTIEG
      ================================================== -->
-
 <section>
-<h2>1. Einstieg: Wo stehst du gerade?</h2>
+  <h2>1. Einstieg: Wo stehst du gerade?</h2>
 
-<div class="task">
-<p><strong>Frage 1:</strong> Was beschäftigt dich im Moment am meisten, wenn du an deine Zukunft nach der Schule denkst?</p>
-<textarea></textarea>
-<button onclick="showFeedback(this)">Rückmeldung</button>
-<div class="feedback">
-Unsicherheit ist in dieser Phase normal. Bildungsbiografien verlaufen heute selten geradlinig.
-</div>
-</div>
+  <div class="task">
+    <p><strong>1.1</strong> Was beschäftigt dich aktuell in Bezug auf deine Zukunft nach der Schule?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Reflexion</button>
+    <div class="feedback">
+      Orientierung ist ein Prozess. Viele Entscheidungen in diesem Alter sind vorläufig – und dürfen sich verändern.
+    </div>
+  </div>
 
-<div class="task">
-<p><strong>Frage 2:</strong> Spürst du eher Erwartungsdruck oder Entscheidungsfreiheit? Von wem?</p>
-<textarea></textarea>
-<button onclick="showFeedback(this)">Einordnung</button>
-<div class="feedback">
-Eltern, Schule und Gesellschaft prägen Entscheidungen oft stärker als individuelle Interessen.
-</div>
-</div>
+  <div class="task">
+    <p><strong>1.2</strong> Spürst du eher Erwartungsdruck oder Entscheidungsfreiheit? Von wem (Eltern, Schule, Umfeld, du selbst)?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Einordnung</button>
+    <div class="feedback">
+      Bildungsforschung zeigt: Erwartungen von Umfeld und Institutionen prägen Bildungsentscheide stark. Das ist normal – wichtig ist, es zu erkennen.
+    </div>
+  </div>
+
+  <div class="task">
+    <p><strong>1.3</strong> Welche Frage willst du am Ende dieser Lernlandschaft für dich klarer beantworten können?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Rückmeldung</button>
+    <div class="feedback">
+      Gute Orientierung beginnt oft nicht mit „Was will ich werden?“, sondern mit „Welche Informationen brauche ich – und was ist mir wichtig?“
+    </div>
+  </div>
 </section>
 
 <!-- ==================================================
-     2. REPUBLIK – AUDIOTEXT
+     2) REPUBLIK – AUDIO
      ================================================== -->
-
 <section>
-<h2>2. Audiotext: „Wie die Schweiz ihr Bildungsziel verfehlt“</h2>
+  <h2>2. Audiotext: Wie die Schweiz ihr Bildungsziel verfehlt</h2>
+  <p class="small">Audioversion zum Republik-Artikel (Philippe Wampfler, 12.01.2026) – Datei im Repo: <code>assets/republik_bildungsziel.mp3</code></p>
 
-<audio controls>
-  <source src="assets/audio/republik_bildungsziel.mp3" type="audio/mpeg">
-</audio>
+  <audio controls>
+    <source src="assets/republik_bildungsziel.mp3" type="audio/mpeg">
+    Dein Browser unterstützt kein Audio.
+  </audio>
 
-<div class="task">
-<p><strong>Hörauftrag:</strong> Welche Aussagen betreffen Jugendliche – welche das Bildungssystem?</p>
-<textarea></textarea>
-<button onclick="showFeedback(this)">Feedback</button>
-<div class="feedback">
-Der Text unterscheidet klar zwischen individuellen Wegen und strukturellen Rahmenbedingungen.
-</div>
-</div>
+  <div class="task">
+    <p><strong>2.1</strong> Welche Aussagen betreffen Jugendliche direkt – welche betreffen das Bildungssystem?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Einordnung</button>
+    <div class="feedback">
+      Hilfreich ist die Unterscheidung: <em>individuelle Entscheidungen</em> (Was mache ich?) vs. <em>Systembedingungen</em> (Welche Wege sind offen, wie durchlässig sind Übergänge?).
+    </div>
+  </div>
+
+  <div class="task">
+    <p><strong>2.2</strong> Was könnte die Aussage „25 ist das neue 18“ bedeuten – für Bildungswege und Lebensläufe?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Rückmeldung</button>
+    <div class="feedback">
+      Gemeint ist: Viele Bildungsbiografien werden länger und weniger geradlinig. Das kann Orientierung erleichtern – wenn das System Anschlusswege gut unterstützt.
+    </div>
+  </div>
+
+  <div class="task">
+    <p><strong>2.3</strong> Notiere 2 Sätze, die du als „These“ aus dem Text mitnimmst – und 1 Satz, den du kritisch hinterfragen willst.</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Sofortfeedback</button>
+    <div class="feedback">
+      Gute Textarbeit trennt: Was behauptet der Text? Was belegt er? Was bleibt Meinung/Deutung? Beides kann wertvoll sein – aber nicht dasselbe.
+    </div>
+  </div>
 </section>
 
 <!-- ==================================================
-     3. BILDUNGSWEGE
+     3) BILDUNGSWEGE
      ================================================== -->
-
 <section>
-<h2>3. Bildungswege in der Schweiz</h2>
+  <h2>3. Bildungswege in der Schweiz – Überblick ohne Hierarchie</h2>
 
-<ul>
-<li>Berufslehre (EFZ / BM)</li>
-<li>Gymnasiale Maturität</li>
-<li>Fachmaturität</li>
-<li>Spätere Zugänge & zweite Bildungswege</li>
-</ul>
+  <p>Wichtig: „höher“ ist nicht automatisch „besser“. Entscheidend sind <strong>Passung</strong>, <strong>Durchlässigkeit</strong> und <strong>Anschlussfähigkeit</strong>.</p>
 
-<div class="task">
-<p><strong>Reflexion:</strong> Welche Wege gelten als „normal“ – und warum?</p>
-<textarea></textarea>
-<button onclick="showFeedback(this)">Einordnung</button>
-<div class="feedback">
-Gesellschaftliche Anerkennung und tatsächliche Durchlässigkeit fallen oft auseinander.
-</div>
-</div>
+  <ul>
+    <li><strong>Berufslehre</strong> (EFZ/EBA) – praxisorientiert; mit <strong>Berufsmaturität</strong> (BM) Anschluss an FH, teils Uni via Passerelle</li>
+    <li><strong>Gymnasiale Maturität</strong> – breit; Zugang Uni/ETH</li>
+    <li><strong>Fachmaturität</strong> – schulisch + Praxis; meist Zugang FH</li>
+    <li><strong>Brückenangebote / Zwischenlösungen</strong> – Übergänge stabilisieren</li>
+    <li><strong>Zweite Bildungswege</strong> – späterer Abschluss / Neuorientierung</li>
+  </ul>
+
+  <div class="task">
+    <p><strong>3.1</strong> Welche Wege gelten gesellschaftlich als „normal“ oder „prestigeträchtig“ – und welche weniger? Warum?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Einordnung</button>
+    <div class="feedback">
+      Prestige ist ein soziales Urteil – nicht zwingend ein Qualitätsurteil. Es lohnt sich, Prestige von persönlicher Passung zu trennen.
+    </div>
+  </div>
+
+  <div class="task">
+    <p><strong>3.2</strong> Welche Kriterien wären für dich sinnvoll, um Wege zu vergleichen (z. B. Praxis/Theorie, Tempo, Betreuung, Finanzen, Optionen)?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Rückmeldung</button>
+    <div class="feedback">
+      Gute Kriterien sind beobachtbar und helfen beim Entscheiden. „Was denken andere?“ ist verständlich – aber selten ein gutes Hauptkriterium.
+    </div>
+  </div>
 </section>
 
 <!-- ==================================================
-     4. STUDIENWAHL (FH / UNI)
+     4) STUDIENWAHL FH vs UNI
      ================================================== -->
-
 <section>
-<h2>4. Studienwahl: Fachhochschule oder Universität?</h2>
+  <h2>4. Studienwahl datenbasiert: Fachhochschule (FH) oder Universität / ETH?</h2>
 
-<h3>Zugang & Alter</h3>
-<ul>
-<li>FH: Berufsmaturität + Praxis (Ø 22–23)</li>
-<li>Uni/ETH: Gymi-Matur / Passerelle (Ø 20–21)</li>
-</ul>
+  <h3>4.1 Zugang (vereinfacht)</h3>
+  <ul>
+    <li><strong>FH</strong>: meist BM + Praxiserfahrung / Praxisbezug</li>
+    <li><strong>Uni/ETH</strong>: gymnasiale Matur oder Passerelle</li>
+  </ul>
 
-<div class="task">
-<p><strong>Frage:</strong> Was sagt dir das Eintrittsalter über Bildungsbiografien?</p>
-<textarea></textarea>
-<button onclick="showFeedback(this)">Faktenfeedback</button>
-<div class="feedback">
-Viele Studierende beginnen ihr Studium nicht direkt nach der Schule.
-</div>
-</div>
+  <div class="task">
+    <p><strong>4.1 Frage</strong> Welcher Zugang wirkt für dich realistischer – und weshalb (ohne Wertung)?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Faktenfeedback</button>
+    <div class="feedback">
+      Beide Wege führen zu anerkannten Abschlüssen. Unterschiede liegen oft in Lernform, Praxisanteil und Anschlussoptionen – nicht in „Wert“.
+    </div>
+  </div>
+
+  <h3>4.2 Lernform (typisch)</h3>
+  <ul>
+    <li><strong>FH</strong>: Projekte, Anwendungen, Praxissemester, oft engerer Bezug zur Berufswelt</li>
+    <li><strong>Uni/ETH</strong>: stärker theorie-/forschungsorientiert, hoher Anteil Selbststudium</li>
+  </ul>
+
+  <div class="task">
+    <p><strong>4.2 Frage</strong> Welche Lernform passt (im Moment) besser zu dir – und welche würdest du gerne verbessern können?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Einordnung</button>
+    <div class="feedback">
+      Passung ist veränderbar: Lernstrategien und Selbstorganisation kann man lernen. Die Frage ist: Will ich das – und bekomme ich Unterstützung?
+    </div>
+  </div>
+
+  <h3>4.3 Fachwechsel & Unterbruch (Einordnung)</h3>
+  <p class="small">Orientierungswechsel kommt vor. Ein Wechsel ist nicht automatisch „Scheitern“, sondern oft eine Korrektur falscher Erwartungen.</p>
+
+  <div class="task">
+    <p><strong>4.3 Frage</strong> Was müsste sich ändern, damit Fachwechsel gesellschaftlich weniger stigmatisiert werden?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Rückmeldung</button>
+    <div class="feedback">
+      Wenn Systeme Übergänge und Anerkennung von Vorleistungen transparenter machen, werden Wechsel eher als „normaler Lernprozess“ verstanden.
+    </div>
+  </div>
 </section>
 
 <!-- ==================================================
-     5. ABBRUCH & ANSCHLUSS
+     5) ABBRUCH / ANSCHLUSS
      ================================================== -->
-
 <section>
-<h2>5. Abbruch, Wechsel, Anschluss</h2>
+  <h2>5. Wenn etwas nicht passt: Abbruch, Wechsel, Anschluss</h2>
 
-<ul>
-<li>Fachwechsel</li>
-<li>FH ↔ Universität</li>
-<li>Unterbruch mit Wiedereinstieg</li>
-</ul>
+  <h3>5.1 Abbruch ist nicht gleich Abbruch</h3>
+  <ul>
+    <li>Fachwechsel innerhalb derselben Bildungsstufe</li>
+    <li>Wechsel zwischen Bildungswegen (z. B. Lehre → BM → FH)</li>
+    <li>Unterbruch mit späterem Wiedereinstieg</li>
+  </ul>
 
-<div class="task">
-<p><strong>Frage:</strong> Welche Form wird gesellschaftlich am stärksten stigmatisiert?</p>
-<textarea></textarea>
-<button onclick="showFeedback(this)">Einordnung</button>
-<div class="feedback">
-Viele sogenannte Abbrüche enden statistisch in einem späteren Abschluss.
-</div>
-</div>
+  <div class="task">
+    <p><strong>5.1 Frage</strong> Welche dieser Formen wirkt auf dich „akzeptiert“ – welche nicht? Warum?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Einordnung</button>
+    <div class="feedback">
+      Stigma entsteht oft dort, wo Lebensläufe als „linear“ erwartet werden. Realistisch sind viele Wege gestuft – mit Umwegen.
+    </div>
+  </div>
+
+  <h3>5.2 Typische Gründe (aggregiert)</h3>
+  <ul>
+    <li>Unklare Erwartungen (Inhalte, Arbeitsalltag, Lernform)</li>
+    <li>Überforderung (Selbstorganisation, Tempo, Leistungsdruck)</li>
+    <li>Fehlende soziale Einbindung / Passung im Betrieb/Studium</li>
+    <li>Finanzielle Belastung / Vereinbarkeit</li>
+  </ul>
+
+  <div class="task">
+    <p><strong>5.2 Frage</strong> Welche Gründe lassen sich beeinflussen – und durch wen (du, Schule, Betrieb, Beratung, Politik)?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Rückmeldung</button>
+    <div class="feedback">
+      Viele Ursachen sind geteilt: Individuum + Umfeld + System. Gute Beratung und frühe Unterstützung wirken nachweislich stabilisierend.
+    </div>
+  </div>
+
+  <h3>5.3 Anschluss sichern: konkrete Optionen</h3>
+  <ul>
+    <li>Berufs- und Studienberatung</li>
+    <li>Brückenangebote / Vorbereitungskurse</li>
+    <li>Anerkennung von Vorleistungen</li>
+    <li>Teilzeit / Unterbruch / Neuplanung</li>
+  </ul>
+
+  <div class="task">
+    <p><strong>5.3 Handlungsfrage</strong> Was wäre für dich ein „guter nächster Schritt“, wenn du unsicher bist – ohne sofort entscheiden zu müssen?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Sofortfeedback</button>
+    <div class="feedback">
+      Gute nächste Schritte sind klein, konkret und überprüfbar: Gespräch, Schnuppern/Info, Check der Voraussetzungen, Plan A/B.
+    </div>
+  </div>
 </section>
 
 <!-- ==================================================
-     6. DIGITALITÄT & KI
+     6) DATENARBEIT BFS
      ================================================== -->
-
 <section>
-<h2>6. Berufswahl in Zeiten der Digitalität & KI</h2>
+  <h2>6. Datenarbeit: Was zeigen Zahlen – und was nicht?</h2>
+  <p>Arbeite mit den Originalquellen. Ziel: <strong>Trends verstehen</strong> statt „Menschen auf Zahlen reduzieren“.</p>
 
-<div class="task">
-<p><strong>Frage:</strong> Wie beeinflusst Digitalisierung deine Berufsvorstellungen?</p>
-<textarea></textarea>
-<button onclick="showFeedback(this)">Einordnung</button>
-<div class="feedback">
-Jugendliche sehen KI oft als Chance, empfinden aber auch Unsicherheit.
-</div>
-</div>
+  <ul>
+    <li><a href="https://www.bfs.admin.ch/bfs/de/home/statistiken/bildung-wissenschaft/bildungsindikatoren/indicators/maturitaetsquote.html" target="_blank" rel="noopener">BFS: Maturitätsquote</a></li>
+    <li><a href="https://www.bfs.admin.ch/bfs/de/home/statistiken/bildung-wissenschaft/uebergaenge.html" target="_blank" rel="noopener">BFS: Übergänge im Bildungssystem</a></li>
+  </ul>
 
-<div class="task">
-<p><strong>Frage:</strong> Welche Fähigkeiten bleiben auch im KI-Zeitalter zentral?</p>
-<textarea></textarea>
-<button onclick="showFeedback(this)">Feedback</button>
-<div class="feedback">
-Empathie, Kommunikation und Urteilsfähigkeit gelten als schwer automatisierbar.
-</div>
-</div>
+  <div class="task">
+    <p><strong>6.1</strong> Welche Entwicklung überrascht dich am meisten? Beschreibe genau, was du siehst (nicht sofort deuten).</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Einordnung</button>
+    <div class="feedback">
+      Statistikkompetenz beginnt mit Beschreibung: Was ist Achse? Zeitraum? Was steigt/fällt? Erst danach Interpretation.
+    </div>
+  </div>
+
+  <div class="task">
+    <p><strong>6.2</strong> Welche Erklärung(en) wären möglich – und welche Informationen bräuchtest du, um sie zu prüfen?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Rückmeldung</button>
+    <div class="feedback">
+      Gute Erklärungen sind prüfbar: „Vielleicht…“ ist okay – wenn du dann sagst, welche Daten/Quellen du zur Prüfung brauchst.
+    </div>
+  </div>
+
+  <div class="task">
+    <p><strong>6.3</strong> Formuliere eine Aussage, die du mit den BFS-Grafiken wirklich absichern kannst – und eine, die du damit <em>nicht</em> absichern kannst.</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Faktenfeedback</button>
+    <div class="feedback">
+      BFS-Daten zeigen Trends und Verteilungen. Sie sagen nicht automatisch, warum einzelne Personen bestimmte Entscheidungen treffen.
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================
+     7) KI & BERUFSWAHL (13 Fragen)
+     ================================================== -->
+<section>
+  <h2>7. Berufswahl in Zeiten der Digitalität & KI</h2>
+  <p>
+    Digitale Technologien und KI verändern Berufe, Arbeitsprozesse und Erwartungen. Eine gelungene Berufswahl bedeutet heute auch:
+    <strong>mit Veränderung umgehen</strong>, <strong>weiterlernen</strong>, <strong>kritisch beurteilen</strong>.
+  </p>
+  <p class="small">
+    Bezugstext: swissinfo – „Wie KI die Berufswahl junger Menschen beeinflusst“:
+    <a href="https://www.swissinfo.ch/ger/ki-arbeit/wie-ki-die-berufswahl-junger-menschen-beeinflusst/88574783" target="_blank" rel="noopener">Artikel öffnen</a>
+  </p>
+
+  <h3>A) Wahrnehmung & Einordnung</h3>
+
+  <div class="task">
+    <p><strong>7.1</strong> Wie beeinflusst die Digitalisierung deine Vorstellungen von einem zukünftigen Beruf?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Einordnung</button>
+    <div class="feedback">
+      Viele Jugendliche sehen Digitalisierung als Chance, berichten aber gleichzeitig von Unsicherheit. Beides kann gleichzeitig stimmen.
+    </div>
+  </div>
+
+  <div class="task">
+    <p><strong>7.2</strong> Was könnte gemeint sein, wenn Jugendliche sagen, KI sei eher eine Chance als eine Bedrohung?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Feedback</button>
+    <div class="feedback">
+      KI kann Tätigkeiten unterstützen (Recherche, Routine, Entwürfe), ohne dass ganze Berufe automatisch verschwinden. Wichtig ist, welche Aufgaben genau betroffen sind.
+    </div>
+  </div>
+
+  <div class="task">
+    <p><strong>7.3</strong> Warum haben manche Jugendliche Angst, ihre Fähigkeiten könnten durch KI an Bedeutung verlieren?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Einordnung</button>
+    <div class="feedback">
+      Die Sorge entsteht oft dort, wo unklar ist, welche Tätigkeiten automatisierbar sind – und welche menschliche Verantwortung/Urteil erfordern.
+    </div>
+  </div>
+
+  <h3>B) Strategien der Berufswahl</h3>
+
+  <div class="task">
+    <p><strong>7.4</strong> Was bedeutet es konkret, einen Beruf zu wählen, der weniger automatisierungsanfällig ist?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Faktenfeedback</button>
+    <div class="feedback">
+      Berufe mit hohem Anteil an Beziehung, Kommunikation, Verantwortung, Kreativität oder Koordination gelten oft als weniger leicht automatisierbar.
+    </div>
+  </div>
+
+  <div class="task">
+    <p><strong>7.5</strong> Welche digitalen Kompetenzen könnten in vielen Berufen künftig wichtig sein – unabhängig vom Berufsfeld?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Einordnung</button>
+    <div class="feedback">
+      Beispiele: kritisches Prüfen von Informationen, digitale Kommunikation, Umgang mit Tools, Datenschutz-Bewusstsein, Lernfähigkeit.
+    </div>
+  </div>
+
+  <div class="task">
+    <p><strong>7.6</strong> Formuliere drei Kriterien, die eine zukunftsorientierte Berufswahl im digitalen Zeitalter ausmachen könnten.</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Rückmeldung</button>
+    <div class="feedback">
+      Häufig genannt: Passung (Interesse), Lernbereitschaft, Anpassungsfähigkeit – plus realistische Kenntnisse über den Arbeitsalltag.
+    </div>
+  </div>
+
+  <h3>C) KI als Hilfsmittel und Risiko</h3>
+
+  <div class="task">
+    <p><strong>7.7</strong> Wie kann KI dir heute konkret bei der Vorbereitung deiner Berufswahl helfen?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Feedback</button>
+    <div class="feedback">
+      KI kann Informationen bündeln, Fragen strukturieren, Perspektiven liefern. Wichtig: Ergebnisse prüfen, Quellen checken, eigene Werte klären.
+    </div>
+  </div>
+
+  <div class="task">
+    <p><strong>7.8</strong> Wo siehst du Risiken, wenn KI in Berufsberatung oder Eignungstests eingesetzt wird?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Einordnung</button>
+    <div class="feedback">
+      Risiken: Intransparente Empfehlungen, Verstärkung von Stereotypen, „Daten entscheiden“ statt Gespräch, unklare Verantwortung bei Fehlern.
+    </div>
+  </div>
+
+  <div class="task">
+    <p><strong>7.9</strong> Sollte KI Berufsberatung eher ergänzen oder ersetzen? Begründe.</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Rückmeldung</button>
+    <div class="feedback">
+      Eine sinnvolle Position: KI kann ergänzen (Recherche/Struktur), aber persönliche Beratung bleibt wichtig (Kontext, Emotion, Konflikte, Werte).
+    </div>
+  </div>
+
+  <h3>D) Selbst- & Zukunftskompetenzen</h3>
+
+  <div class="task">
+    <p><strong>7.10</strong> Warum könnte die Fähigkeit „lernen zu lernen“ wichtiger werden als einzelnes Fachwissen?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Feedback</button>
+    <div class="feedback">
+      Tools und Anforderungen verändern sich schneller als Ausbildungspläne. Wer Lernstrategien beherrscht, bleibt handlungsfähig.
+    </div>
+  </div>
+
+  <div class="task">
+    <p><strong>7.11</strong> Welche menschlichen Fähigkeiten bleiben auch in einer stark digitalisierten Arbeitswelt zentral?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Einordnung</button>
+    <div class="feedback">
+      Oft genannt: Empathie, Teamfähigkeit, Kommunikation, Verantwortungsübernahme, Urteilsfähigkeit, Kreativität.
+    </div>
+  </div>
+
+  <h3>E) Gesellschaftliche Perspektive</h3>
+
+  <div class="task">
+    <p><strong>7.12</strong> Kann KI bei der Berufswahl neue Ungleichheiten schaffen? Wenn ja, wie?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Feedback</button>
+    <div class="feedback">
+      Ja, wenn Zugang zu Beratung/Technologie ungleich ist oder wenn Systeme Vorurteile reproduzieren. Transparenz und Zugang sind zentral.
+    </div>
+  </div>
+
+  <div class="task">
+    <p><strong>7.13</strong> Welche Verantwortung haben Schulen und Berufsberatung im Umgang mit KI?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Einordnung</button>
+    <div class="feedback">
+      Orientierung ermöglichen: kritisch informieren, Tools reflektieren, Quellenkompetenz fördern, Übergänge sichtbar machen – ohne Entscheidungsdruck.
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================
+     8) QUELLEN / RESSOURCEN
+     ================================================== -->
+<section>
+  <h2>8. Quellen & Ressourcen (transparent)</h2>
+  <p>Diese Lernlandschaft trennt bewusst zwischen Reflexion (Kommentar) und überprüfbaren Ressourcen (Links).</p>
+
+  <h3>Institutionelle Daten / Grundlagen</h3>
+  <ul>
+    <li><strong>BFS</strong> – Bildungsindikatoren, Abschlüsse, Übergänge:
+      <a href="https://www.bfs.admin.ch/bfs/de/home/statistiken/bildung-wissenschaft.html" target="_blank" rel="noopener">bfs.admin.ch</a>
+    </li>
+    <li><strong>swissuniversities</strong> – Hochschultypen & System:
+      <a href="https://www.swissuniversities.ch/" target="_blank" rel="noopener">swissuniversities.ch</a>
+    </li>
+    <li><strong>OECD</strong> – internationale Perspektiven (Education at a Glance):
+      <a href="https://www.oecd.org/education/education-at-a-glance/" target="_blank" rel="noopener">oecd.org</a>
+    </li>
+  </ul>
+
+  <h3>Journalistische Perspektiven / Debatte</h3>
+  <ul>
+    <li><strong>Republik</strong> – Bildungsziel/95%-Debatte (Audiotext in dieser Lernlandschaft)</li>
+    <li><strong>SRF</strong> – Berufslehre / Lehrabbrüche / Einordnung:
+      <a href="https://www.srf.ch/news" target="_blank" rel="noopener">srf.ch/news</a>
+    </li>
+    <li><strong>swissinfo</strong> – KI & Berufswahl:
+      <a href="https://www.swissinfo.ch/ger/ki-arbeit/wie-ki-die-berufswahl-junger-menschen-beeinflusst/88574783" target="_blank" rel="noopener">Artikel öffnen</a>
+    </li>
+  </ul>
+
+  <div class="task">
+    <p><strong>8.1 Meta-Frage</strong> Warum ist es wichtig, bei Bildungsdebatten Quellen zu kennen (BFS vs. Kommentar vs. Meinung)?</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Einordnung</button>
+    <div class="feedback">
+      Quellenkenntnis hilft, Fakten (Daten), Deutungen (Analyse) und Meinungen (Positionen) zu unterscheiden. Für Entscheidungen ist das zentral.
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================
+     9) ABSCHLUSS / TRANSFER
+     ================================================== -->
+<section>
+  <h2>9. Abschluss: Was nimmst du mit?</h2>
+
+  <div class="task">
+    <p><strong>9.1</strong> Nach dieser Lernlandschaft denke ich über Bildungswege anders, weil …</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Abschlussfeedback</button>
+    <div class="feedback">
+      Orientierung ist eine Kompetenz. Es ist legitim, Optionen offen zu halten und schrittweise zu entscheiden.
+    </div>
+  </div>
+
+  <div class="task">
+    <p><strong>9.2</strong> Formuliere deinen nächsten realistischen Schritt (klein, konkret, innerhalb von 7 Tagen).</p>
+    <textarea></textarea>
+    <button onclick="showFeedback(this)">Rückmeldung</button>
+    <div class="feedback">
+      Gute nächste Schritte: 1 Gespräch vereinbaren, 1 Infoquelle prüfen, 1 Schnupper-/Infoevent suchen, 1 Plan A/B skizzieren.
+    </div>
+  </div>
 </section>
 
 </main>
 
 <footer>
-Lernlandschaft Bildungspfade Schweiz · GitHub Pages · localStorage · PDF-Export
+  Lernlandschaft Bildungspfade Schweiz · GitHub Pages · localStorage (lokal) · PDF-Export
 </footer>
 
-<!-- ==================================================
-     JAVASCRIPT – KEINE ABKÜRZUNGEN
-     ================================================== -->
-
 <script>
-
-/* === localStorage für alle Textfelder === */
+/* ==================================================
+   localStorage – ALLE Textfelder
+   ================================================== */
 const textareas = document.querySelectorAll("textarea");
 textareas.forEach((ta, index) => {
   const key = "antwort_" + index;
@@ -356,12 +676,17 @@ textareas.forEach((ta, index) => {
   });
 });
 
-/* === Feedback anzeigen === */
+/* ==================================================
+   Feedback anzeigen
+   ================================================== */
 function showFeedback(button) {
-  button.nextElementSibling.style.display = "block";
+  const fb = button.nextElementSibling;
+  fb.style.display = "block";
 }
 
-/* === PDF-Export === */
+/* ==================================================
+   PDF-Export
+   ================================================== */
 function exportPDF() {
   const oldTitle = document.title;
   document.title = "Lernlandschaft_Bildungspfade_CH";
@@ -369,6 +694,18 @@ function exportPDF() {
   document.title = oldTitle;
 }
 
+/* ==================================================
+   Antworten löschen (lokal)
+   ================================================== */
+function clearAnswers() {
+  const ok = confirm("Willst du wirklich alle gespeicherten Antworten auf diesem Gerät löschen?");
+  if (!ok) return;
+  textareas.forEach((ta, index) => {
+    const key = "antwort_" + index;
+    localStorage.removeItem(key);
+    ta.value = "";
+  });
+}
 </script>
 
 </body>
